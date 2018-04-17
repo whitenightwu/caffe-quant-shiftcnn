@@ -7,16 +7,22 @@ import matplotlib.pyplot as plt
 N = 2
 B = 4
 #
-#model = "squeezenet_v1.1"
-model = "ResNet-50"
-SOURCE_PATH = os.environ["HOME"]+"/github/caffe/models/"+model+"/"
+
+model = "GoogleNet"
+#model = "ResNet-18"
+#model = "SqueezeNet_v1.1"
+#model = "ResNet-50"
+
+SOURCE_PATH = os.environ["HOME"]+"/work/ShiftCNN/"+model+"/"
 prototxt = SOURCE_PATH+"train_val.prototxt"
 source   = SOURCE_PATH+model+".caffemodel"
 qtarget  = SOURCE_PATH+model+"_N"+str(N)+"_B"+str(B)+".caffemodel"
-caffe_root = os.environ["CAFFE_ROOT"]
-os.chdir(caffe_root)
-print caffe_root
-sys.path.insert(0, caffe_root + 'python')
+
+#caffe_root = os.environ["CAFFE_ROOT"]
+#caffe_root ="/home/ydwu/work/caffe"
+#os.chdir(caffe_root)
+#print caffe_root
+#sys.path.insert(0, caffe_root + 'python')
 import caffe
 
 caffe.set_mode_cpu()
@@ -45,7 +51,7 @@ for idx, layer in enumerate(layers):
             zIdx = q!=0
             wT += q
             r  -= q
-        
+        print "ok============"
         np.copyto(net.params[layer][0].data, wT*wMax)
 
 net.save(qtarget)
